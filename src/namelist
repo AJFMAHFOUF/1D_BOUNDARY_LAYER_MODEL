@@ -1,0 +1,25 @@
+ &surfprop
+   clay = 0.10
+   sand = 0.10
+   z0 = 0.02
+   z0h = 0.02
+   emis = 0.97
+   alpha = 0.2
+   Rsmin = 40.0
+   LAI = 1.0
+   d2 = 1.0
+   veg = 1.00
+ / 
+ &simsetup
+   expid = 'REF004'
+   Trans = 0.8
+   dt = 300.0
+   lgeowind=.true.
+   llwrad=.false.
+ /
+ &soilinit
+   swig = 1.0
+   swi2 = 1.0
+   delta_ts = 0.0
+   delta_t2 = 0.0
+ /
