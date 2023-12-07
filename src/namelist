@@ -11,11 +11,11 @@
    veg = 1.00
  / 
  &simsetup
-   expid = 'REF004'
+   expid = 'REF005'
    Trans = 0.8
    dt = 300.0
    lgeowind=.true.
-   llwrad=.false.
+   llwrad=.true.
  /
  &soilinit
    swig = 1.0

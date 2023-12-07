@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-expid='REF004'
+expid='REF005'
 z,t,q,u,v,km,kh=np.loadtxt('../data_out/atmospheric_profiles_exp_'+expid+'.dat',unpack=True)
 za=np.reshape(z,(17,80))
 ta=np.reshape(t,(17,80))

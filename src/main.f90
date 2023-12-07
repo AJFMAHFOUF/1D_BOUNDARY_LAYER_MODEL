@@ -255,7 +255,7 @@ subroutine main
 !
 !  Radiative cooling temperature tendency
 !   
-   call lw_radiation3(nlev,tsk,qvs,zps,tha,qva,pa,rho,za,dtdt_lw)   
+   call lw_radiation(nlev,tsk,qvs,zps,tha,qva,pa,rho,za,dtdt_lw)   
 !   
    if (llwrad) then
      tha(:) = tha(:) + dt*(p00/pa(:))**(Rd/Cp)*dtdt_lw(:)
