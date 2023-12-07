@@ -40,9 +40,9 @@
    emis1_h2o = 0.0
  endif
  end function emis1_h2o
-!------------------------------------------------------------
+!-----------------------------------------
  function emis2_h2o(u)
-!****************************************
+!*****************************************
 ! H2O flux emissivity (Kuhn, 1963 ; Jacobs et al, 1974)
 !
 ! input : u in cm 
@@ -74,4 +74,28 @@
   emis2_h2o = 0.0
  endif  
  end function emis2_h2o
+!-----------------------------------------
+ function emis3_h2o(u)
+!*****************************************
+! H2O flux emissivity (Savijarvi, 1990)
+!
+! input : u in cm 
+! ouput : emis1_h2o
+!
+! Jean-Francois Mahfouf (06/12/2023)
+!
+!*****************************************
+ implicit none
+ real :: emis3_h2o 
+ real, intent(in) :: u   
+ real :: logu
+ if (u > 0.0) then
+   logu = log10(u)                          
+   emis3_h2o = 0.60 + 0.17*logu - 0.0082*logu**2 - 0.0045*logu**3
+ else
+   emis3_h2o = 0.0
+ endif
+ end function emis3_h2o
+
+ 
 
