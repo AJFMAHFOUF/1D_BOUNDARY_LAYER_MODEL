@@ -43,9 +43,9 @@ subroutine lw_radiation(nlev,ts,qvs,ps,tha,qva,pa,rho,z,dtdt)
 !
 ! Options for computing radiative tendencies
 ! 
- l_cts = .true.
- l_wvcont = .false.
- l_simtend = .true.
+ l_cts = .false.
+ l_wvcont = .true.
+ l_simtend = .false.
 !
 ! Reference values for scaling optical path for H2O and CO2
 !
@@ -77,9 +77,9 @@ subroutine lw_radiation(nlev,ts,qvs,ps,tha,qva,pa,rho,z,dtdt)
   endif 
  enddo
 ! 
-! Temperature at model top - set to zero (Savijarvi, 1990)
+! Temperature at model top - set to zero with a full profile (not only PBL)
 !
- zt_top = 0.0
+ zt_top = tah(1)
 ! 
 ! 
 ! Path length for water vapour and carbon dioxide
@@ -153,9 +153,10 @@ subroutine lw_radiation(nlev,ts,qvs,ps,tha,qva,pa,rho,z,dtdt)
  enddo
  dtdt(1)  = 0.5*dtdth(1)
 !
-! write (*,*) '----------------------------------------------------------------'
+ write (*,*) '----------------------------------------------------------------'
 ! do jk=1,nlev
 !  write(*,*) 'heating rate',jk,pa(jk)/100.,dtdt(jk)*86400.0,-(0.017*(ta(jk)-273.15) + 1.8)
-! enddo  
+! enddo
+! stop  
  return
 end subroutine lw_radiation
