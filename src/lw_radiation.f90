@@ -81,7 +81,6 @@ subroutine lw_radiation(nlev,ts,qvs,ps,tha,qva,pa,rho,z,dtdt)
 !
  zt_top = tah(1)
 ! 
-! 
 ! Path length for water vapour and carbon dioxide
 !
 ! a) from a given level jk1 down to the surface
@@ -153,7 +152,7 @@ subroutine lw_radiation(nlev,ts,qvs,ps,tha,qva,pa,rho,z,dtdt)
  enddo
  dtdt(1)  = 0.5*dtdth(1)
 !
- write (*,*) '----------------------------------------------------------------'
+! write (*,*) '----------------------------------------------------------------'
 ! do jk=1,nlev
 !  write(*,*) 'heating rate',jk,pa(jk)/100.,dtdt(jk)*86400.0,-(0.017*(ta(jk)-273.15) + 1.8)
 ! enddo
