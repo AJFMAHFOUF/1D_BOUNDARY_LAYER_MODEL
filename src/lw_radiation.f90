@@ -112,20 +112,24 @@ subroutine lw_radiation(nlev,ts,qvs,ps,tha,qva,pa,rho,z,dtdt)
 !
 ! Effective emissivities and longwave radiative cooling rate (at half levels)
 ! 
- do jk=1,nlev
+ do jk=1,nlev   
    emis_up2 = emis3_h2o(uh2o_u(jk)) + emis1_co2(uco2_u(jk))
-   emis_dn2 = emis3_h2o(uh2o_d(jk)) + emis1_co2(uco2_d(jk))
    if (jk .ne. 1) then    
-     emis_up1 = emis3_h2o(uh2o_u(jk-1)) + emis1_co2(uco2_u(jk-1)) 
-     emis_dn1 = emis3_h2o(uh2o_d(jk-1)) + emis1_co2(uco2_d(jk-1))
+     emis_up1 = emis3_h2o(uh2o_u(jk-1)) + emis1_co2(uco2_u(jk-1))
    else
      emis_up1 = 1.0*emis_up2
-     emis_dn1 = 1.0*emis_dn2
-   endif   
+   endif 
+! 
+   emis_dn1 = emis3_h2o(uh2o_d(jk)) + emis1_co2(uco2_d(jk))
+   if (jk .ne. nlev) then    
+     emis_dn2 = emis3_h2o(uh2o_d(jk+1)) + emis1_co2(uco2_d(jk+1))
+   else
+     emis_dn2 = 1.0*emis_dn1
+   endif      
 !   
    invcpdz = Stefan/(rhoh(jk)*Cp*(z(jk+1) - z(jk)))
    dtdth(jk) = -invcpdz*((tah(jk)**4 - ts**4)*(emis_dn2 - emis_dn1) + &
-            &           (zt_top**4 - tah(jk)**4)*(emis_up2 - emis_up1))          
+            &        (zt_top**4 - tah(jk)**4)*(emis_up2 - emis_up1))          
 !
 !  Cooling to space approximation
 !             

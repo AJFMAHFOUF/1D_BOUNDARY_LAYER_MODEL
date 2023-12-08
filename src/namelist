@@ -11,7 +11,7 @@
    veg = 1.00
  / 
  &simsetup
-   expid = 'REF005'
+   expid = 'REF006'
    Trans = 0.8
    dt = 300.0
    lgeowind=.true.
