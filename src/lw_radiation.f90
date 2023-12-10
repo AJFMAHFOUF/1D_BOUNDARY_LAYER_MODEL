@@ -127,8 +127,10 @@ subroutine lw_radiation(nlev,ts,qvs,ps,tha,qva,pa,rho,z,dtdt)
      emis_dn2 = 1.0*emis_dn1
    endif      
 !   
-   invcpdz = Stefan/(rhoh(jk)*Cp*(z(jk+1) - z(jk)))
-   dtdth(jk) = -invcpdz*((tah(jk)**4 - ts**4)*(emis_dn2 - emis_dn1) + &
+   !invcpdz = -Stefan/(rhoh(jk)*Cp*(z(jk+1) - z(jk)))
+! Modified formulation to prevent from too low density values at high levels   
+   invcpdz = grav*Stefan/(Cp*(zpa(jk+1) - zpa(jk)))
+   dtdth(jk) = invcpdz*((tah(jk)**4 - ts**4)*(emis_dn2 - emis_dn1) + &
             &        (zt_top**4 - tah(jk)**4)*(emis_up2 - emis_up1))          
 !
 !  Cooling to space approximation
