@@ -1,4 +1,4 @@
-subroutine lw_radiation(nlev,ts,qvs,ps,tha,qva,pa,rho,dtdt)
+subroutine lw_radiation(nlev,ts,qvs,ps,tha,qva,pa,dtdt)
 !-------------------------------------------------------------------------
 !
 ! Compute simplified longwave radiative cooling (Sasamori, 1972)
@@ -29,13 +29,13 @@ subroutine lw_radiation(nlev,ts,qvs,ps,tha,qva,pa,rho,dtdt)
  end interface     
  integer,                 intent(in)  :: nlev
  real,                    intent(in)  :: ts, qvs, ps
- real, dimension(nlev),   intent(in)  :: tha, qva, pa, rho
+ real, dimension(nlev),   intent(in)  :: tha, qva, pa
  real, dimension(nlev),   intent(out) :: dtdt
 
- real, dimension(nlev)   :: rhoh, ta, tah, qvah, dtdth
+ real, dimension(nlev)   :: ta, tah, qvah, dtdth
  real, dimension(nlev)   :: uh2o_d, uco2_d, uh2o_u, uco2_u      
  real, dimension(nlev+1) :: zpa, zpah      
- real                    :: zrhos, emis_up1, emis_up2, emis_dn1, emis_dn2, invcpdp
+ real                    :: emis_up1, emis_up2, emis_dn1, emis_dn2, invcpdp
  real                    :: zt_top, zp0, zt0, zscale_h2o, zscale_co2, zdelta_emis 
  integer                 :: jk, jk1, jk2
  logical                 :: l_cts, l_wvcont, l_simtend
@@ -56,12 +56,6 @@ subroutine lw_radiation(nlev,ts,qvs,ps,tha,qva,pa,rho,dtdt)
  zdelta_emis = 0.0 ! 3.0E-5 for ICRCCM
 !
 ! Mean atmospheric variables at half-levels
-! 
- do jk=1,nlev-1
-  rhoh(jk) = 0.5*(rho(jk) + rho(jk+1))
- enddo
- zrhos = ps/(Rd*ts*(1.0 + 0.608*qvs))
- rhoh(nlev) = 0.5*(rho(nlev) + zrhos) 
 !
  do jk=1,nlev
    ta(jk) = tha(jk)*(pa(jk)/p00)**(Rd/Cp)
