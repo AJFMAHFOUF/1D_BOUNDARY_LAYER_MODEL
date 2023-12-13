@@ -154,7 +154,7 @@ subroutine lw_radiation(nlev,ts,qvs,ps,tha,qva,pa,dtdt)
  do jk=2,nlev
    dtdt(jk) = 0.5*(dtdth(jk) + dtdth(jk-1))
  enddo
- dtdt(1)  = 0.5*dtdth(1)
+ dtdt(1)  = dtdth(1)
 !
 ! write (*,*) '----------------------------------------------------------------'
 ! do jk=1,nlev
