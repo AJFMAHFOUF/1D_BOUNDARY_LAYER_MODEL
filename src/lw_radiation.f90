@@ -14,6 +14,10 @@ subroutine lw_radiation(nlev,ts,qvs,ps,tha,qva,pa,dtdt)
    implicit none
    real, intent(in)  :: u
   end function emis1_co2
+  real function emis2_co2(u)
+   implicit none
+   real, intent(in)  :: u
+  end function emis2_co2
   real function emis1_h2o(u)
    implicit none
    real, intent(in)  :: u
@@ -26,6 +30,10 @@ subroutine lw_radiation(nlev,ts,qvs,ps,tha,qva,pa,dtdt)
    implicit none
    real, intent(in)  :: u
   end function emis3_h2o
+  real function emis4_h2o(u)
+   implicit none
+   real, intent(in)  :: u
+  end function emis4_h2o
  end interface     
  integer,                 intent(in)  :: nlev
  real,                    intent(in)  :: ts, qvs, ps
