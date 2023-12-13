@@ -134,7 +134,7 @@ subroutine lw_radiation(nlev,ts,qvs,ps,tha,qva,pa,dtdt)
 !  Cooling to space approximation
 !             
    if (l_cts) then
-     dtdth(jk) = invcpdz*tah(jk)**4*(emis_up2 - emis_up1)         
+     dtdth(jk) = invcpdp*tah(jk)**4*(emis_up2 - emis_up1)         
    endif
 !
 !  Simplified tendencies proposed by Pielke (1984)
