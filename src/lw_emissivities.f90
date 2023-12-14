@@ -42,7 +42,7 @@
 !---------------------------------------
  function emis1_h2o(u)
 !****************************************
-! H2O flux emissivity (Staley & Jurica, 1972, fit @ 20 °C)
+! H2O flux emissivity (Staley & Jurica, 1970, fit @ 20 °C)
 !
 ! input : u in cm 
 ! ouput : emis1_h2o
