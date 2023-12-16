@@ -72,7 +72,7 @@ subroutine lw_radiation2(nlev,ts,qvs,ps,tha,qva,pa,dtdt)
   else
     tah(jk)  = 0.5*(ta(jk) + ts)
     qvah(jk) = 0.5*(qva(jk) + qvs)
-    pah(jk)  = 0.05*(pa(jk) + ps)
+    pah(jk)  = 0.5*(pa(jk) + ps)
   endif 
  enddo
 !
