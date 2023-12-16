@@ -110,14 +110,15 @@
  implicit none
  real :: emis3_h2o 
  real, intent(in) :: u   
- real :: logu, zu, zemis
- if (u >= 1.E-3) then
+ real :: logu, zu, zemis, u_min
+ u_min = 1.E-3
+ if (u >= u_min) then
    logu =log10(u)                          
    emis3_h2o = 0.60 + 0.17*logu - 0.0082*logu**2 - 0.0045*logu**3
  else
-   zu = log10(1.0E-3)
+   zu = log10(u_min)
    zemis = 0.60 + 0.17*zu - 0.0082*zu**2 - 0.0045*zu**3
-   emis3_h2o = (u/1.E-3)**(0.5)*zemis
+   emis3_h2o = (u/u_min)**(0.5)*zemis
  endif
  emis3_h2o = min(1.0,max(0.0,emis3_h2o))
  end function emis3_h2o
@@ -127,7 +128,8 @@
 ! H2O flux emissivity (Sasamori, 1968)
 !
 ! input : u in cm 
-! ouput : emis4_h2o06 + 0.17
+! ouput : emis4_h2o
+
 !
 ! Jean-Francois Mahfouf (13/12/2023)
 !
