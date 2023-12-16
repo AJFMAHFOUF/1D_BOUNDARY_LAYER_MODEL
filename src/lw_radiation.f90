@@ -115,7 +115,6 @@ subroutine lw_radiation(nlev,ts,qvs,ps,tha,qva,pa,dtdt)
      uh2o_u(jk1) = uh2o_u(jk1) + 0.1/grav*qvah(jk2)*zscale_h2o*(zpa(jk2+1) - zpa(jk2))
      uco2_u(jk1) = uco2_u(jk1) + 0.00612*zscale_co2*(zpa(jk2+1) - zpa(jk2))
    enddo  
-   uh2o_u(jk1) = max(1.E-4,uh2o_u(jk1))
  enddo  
 !
 ! Effective emissivities and longwave radiative cooling rate (at half levels)
