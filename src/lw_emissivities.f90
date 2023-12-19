@@ -118,7 +118,7 @@
  else
    zu = log10(u_min)
    zemis = 0.60 + 0.17*zu - 0.0082*zu**2 - 0.0045*zu**3
-   emis3_h2o = (u/u_min)**(0.5)*zemis
+   emis3_h2o = (u/u_min)**(1./3.)*zemis
  endif
  emis3_h2o = min(1.0,max(0.0,emis3_h2o))
  end function emis3_h2o

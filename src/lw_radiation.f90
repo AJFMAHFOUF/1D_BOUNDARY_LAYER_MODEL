@@ -97,7 +97,7 @@ subroutine lw_radiation(nlev,ts,qvs,ps,tha,qva,pa,dtdt)
  uco2_d(:) = 0.0
  do jk1=1,nlev
    do jk2=jk1,nlev 
-     zscale_h2o = (zpah(jk2)/zp0)**0.85*(zt0/tah(jk2))**0.5
+     zscale_h2o = (zpah(jk2)/zp0)**1.20*(zt0/tah(jk2))**0.5
      zscale_co2 = (zpah(jk2)/zp0)**0.75*(zt0/tah(jk2))**0.0
      uh2o_d(jk1) = uh2o_d(jk1) + 0.1/grav*qvah(jk2)*zscale_h2o*(zpa(jk2+1) - zpa(jk2))
      uco2_d(jk1) = uco2_d(jk1) + 0.00612*zscale_co2*(zpa(jk2+1) - zpa(jk2))
@@ -110,7 +110,7 @@ subroutine lw_radiation(nlev,ts,qvs,ps,tha,qva,pa,dtdt)
  uco2_u(:) = 0.0
  do jk1=nlev,1,-1
    do jk2=jk1,1,-1 
-     zscale_h2o = (zpah(jk2)/zp0)**0.85*(zt0/tah(jk2))**0.5
+     zscale_h2o = (zpah(jk2)/zp0)**1.20*(zt0/tah(jk2))**0.5
      zscale_co2 = (zpah(jk2)/zp0)**0.75*(zt0/tah(jk2))**0.0
      uh2o_u(jk1) = uh2o_u(jk1) + 0.1/grav*qvah(jk2)*zscale_h2o*(zpa(jk2+1) - zpa(jk2))
      uco2_u(jk1) = uco2_u(jk1) + 0.00612*zscale_co2*(zpa(jk2+1) - zpa(jk2))

@@ -85,7 +85,7 @@ subroutine lw_radiation2(nlev,ts,qvs,ps,tha,qva,pa,dtdt)
    emis_totm = 0.0
    delta_flux = 0.0
    do jk2=jk1,1,-1 
-     zscale_h2o = (pah(jk2)/zp0)**0.85*(zt0/tah(jk2))**0.5
+     zscale_h2o = (pah(jk2)/zp0)**1.20*(zt0/tah(jk2))**0.5
      zscale_co2 = (pah(jk2)/zp0)**0.75*(zt0/tah(jk2))**0.0
      du_h2o = 0.1/grav*qvah(jk2)*zscale_h2o*(zpa(jk2+1) - zpa(jk2))
      total_column_h2o = total_column_h2o + du_h2o
@@ -106,7 +106,7 @@ subroutine lw_radiation2(nlev,ts,qvs,ps,tha,qva,pa,dtdt)
    emis_totm = 0.0
    delta_flux = 0.0   
    do jk2=jk1,nlev
-     zscale_h2o = (pah(jk2)/zp0)**0.85*(zt0/tah(jk2))**0.5
+     zscale_h2o = (pah(jk2)/zp0)**1.20*(zt0/tah(jk2))**0.5
      zscale_co2 = (pah(jk2)/zp0)**0.75*(zt0/tah(jk2))**0.0
      du_h2o = 0.1/grav*qvah(jk2)*zscale_h2o*(zpa(jk2+1) - zpa(jk2))
      total_column_h2o = total_column_h2o + du_h2o
