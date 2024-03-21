@@ -24,7 +24,7 @@ subroutine water_budget(wg,w2,wr,pr,leg,lev,letr,wgn,w2n,wrn,ro,EmP)
 !
 ! Evolution of the interception reservoir
 !
- wrn = wr + dt*(veg*pr - lev/Lv - letr/Lv) 
+ wrn = wr + dt*(veg*pr - lev/Lv) 
 !
  if (wrn > Wrmax) then
   runoff4 = (wrn - Wrmax)/dt
