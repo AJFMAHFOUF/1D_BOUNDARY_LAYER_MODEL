@@ -1,6 +1,6 @@
  &surfprop
-   clay = 0.10
-   sand = 0.10
+   clay = 0.30
+   sand = 0.60
    z0 = 0.02
    z0h = 0.02
    emis = 0.97
@@ -8,18 +8,18 @@
    Rsmin = 40.0
    LAI = 1.0
    d2 = 1.0
-   veg = 1.00
+   veg = 0.00
  / 
  &simsetup
-   expid = 'REF006'
-   Trans = 0.8
+   expid = 'REF018'
+   Trans = 0.9
    dt = 300.0
    lgeowind=.true.
-   llwrad=.true.
+   llwrad=.false.
  /
  &soilinit
-   swig = 1.0
-   swi2 = 1.0
+   swig = 0.0
+   swi2 = 0.0
    delta_ts = 0.0
    delta_t2 = 0.0
  /

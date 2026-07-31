@@ -25,7 +25,7 @@ subroutine main
  real, dimension (nlevs)        :: tsoil, tsoiln, wsoil, wsoiln, zsoil 
  real, dimension (nlevs)        :: K_w, D_w, rhocs, Lambda_s
  real :: ps, zs, ths, qvs, us, vs, rtime
- real :: fluxh, fluxq, fluxu, fluxv, ustar, zi, phi_m, phi_h
+ real :: fluxh, fluxq, fluxu, fluxv, ustar, zi, phi_m, phi_h, gamma_cg
  real :: clf, zta, zqa, zua, zva, zps, pmu, rg, rl 
  real :: clay, sand
  real :: wg, w2, wr, ts, t2, tsk, delta 
@@ -296,7 +296,7 @@ subroutine main
 !
 !  Height of the PBL and stability functions in the constant flux layer 
 !
-     call pbl_height(ustar,fluxh,tsk,qvs,tha(nlev),za(nlev),zi,phi_m,phi_h)   
+     call pbl_height(ustar,fluxh,tsk,qvs,tha(nlev),za(nlev),zi,phi_m,phi_h,gamma_cg)   
 !
 !  Eddy diffusivity exchange coefficients (0'Brien 1970)
 !   
@@ -304,20 +304,21 @@ subroutine main
 !
    else
 !   
-!  Eddy diffusivity exchange ceofficients (Louis et al., 1981) 
+!  Eddy diffusivity exchange coefficients (Louis et al., 1981) 
 !      
       call diffusion_coeff_louis(nlev,tha,qva,ua,va,za,km,kh)
 !      
       zi = 20. ! set PBL height at arbitrary small value
+      gamma_cg = 0.0 ! set countergradient to zero
 !      
    endif         
 !   
 !  Implicit vertical diffusion equation (tridiagonal solver)
 !
-   call vertical_diffusion(nlev,tha,za,rho,kh,fluxh,than)
-   call vertical_diffusion(nlev,qva,za,rho,kh,fluxq,qvan)
-   call vertical_diffusion(nlev,ua,za,rho,km,fluxu,uan)
-   call vertical_diffusion(nlev,va,za,rho,km,fluxv,van)
+   call vertical_diffusion(nlev,tha,za,rho,kh,fluxh,than,gamma_cg,1)
+   call vertical_diffusion(nlev,qva,za,rho,kh,fluxq,qvan,gamma_cg,0)
+   call vertical_diffusion(nlev,ua,za,rho,km,fluxu,uan,gamma_cg,0)
+   call vertical_diffusion(nlev,va,za,rho,km,fluxv,van,gamma_cg,0)
 !
 !  Solve surface energy budget - evolution of soil temperatures 
 !   
