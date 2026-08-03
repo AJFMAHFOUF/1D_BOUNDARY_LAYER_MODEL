@@ -1,12 +1,12 @@
 import numpy as np
 import matplotlib.pyplot as plt
-expid='REF004'
+expid='REF028'
 i,rg,rl,rn,h,le,leg,lev,letr,g,ts,t2,wg,w2,t2m,wsoil1=np.loadtxt('../data_out/surface_fluxes_and_variables_exp_'+expid+'.dat',unpack=True)
 fig=plt.figure()
 ax1=fig.add_subplot(311)
 ax1.plot(i,rn,label='Rn',linewidth=2)
 ax1.plot(i,h,label='H',linewidth=2)
-ax1.plot(i,le,label='LE',linewidth=2)
+ax1.plot(i,leg,label='LEG',linewidth=2)
 ax1.plot(i,letr,label='LETR',linewidth=2)
 ax1.plot(i,g,label='G',linewidth=2)
 #ax1.plot(i,rn-h-le,label='Rn-H-LE',linewidth=2)

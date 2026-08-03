@@ -31,7 +31,7 @@ subroutine soilw_vertical_diffusion(nlevs,x0,zs,K_w,D_w,EmP,Root_ext,x1)
    zsm(jk) = 0.5*(zs(jk) + zs(jk-1))
  enddo
 ! last flux level extrapolated below last model level
- zsm(nlevs+1) =  2.0*zs(nlevs) - zsm(nlevs) 
+ zsm(nlevs+1) =  1.5*zs(nlevs) - 0.5*zs(nlevs-1) 
 ! 
 !  Empirical root extraction profile
 ! 

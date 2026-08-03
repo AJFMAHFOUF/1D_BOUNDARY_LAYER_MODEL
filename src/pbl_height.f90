@@ -19,7 +19,7 @@ subroutine pbl_height(ustar,fluxh,ths,qvs,tha_nlev,za_nlev,zi,phi_m,phi_h,gamma_
 !
 !  Monin-Obukhov length   
 !   
-  lmo = -ustar**3/(grav*karman/ths*(1.0 + 0.608*qvs)*fluxh)
+  lmo = -ustar**3/(grav*karman/(ths*(1.0 + 0.608*qvs))*fluxh)
 !
   zeta = za_nlev/lmo
 !

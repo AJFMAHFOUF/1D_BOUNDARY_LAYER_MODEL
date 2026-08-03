@@ -1,4 +1,4 @@
-subroutine vertical_diffusion(nlev,x0,z,rho,kdiff,flux,x1,gamma_cg,icg)
+subroutine vertical_diffusion(nlev,x0,z,kdiff,flux,x1,gamma_cg,icg)
 !-------------------------------------------------------------------------
 !
 ! Solve vertical diffusion equation by inversion of tridiagonal matrix
@@ -10,22 +10,17 @@ subroutine vertical_diffusion(nlev,x0,z,rho,kdiff,flux,x1,gamma_cg,icg)
  implicit none         
  integer,                 intent(in)  :: nlev
  real,                    intent(in)  :: flux, gamma_cg
- real, dimension(nlev),   intent(in)  :: x0, rho, kdiff
+ real, dimension(nlev),   intent(in)  :: x0, kdiff
  integer,                 intent(in)  :: icg ! countergradient term for theta only
  real, dimension(nlev+1), intent(in)  :: z
  real, dimension(nlev),   intent(out) :: x1
 
- real, dimension(nlev)   :: a, b, c, d, rhoh   
+ real, dimension(nlev)   :: a, b, c, d  
  real, dimension(nlev)   :: ai, bi, ci 
  real, dimension(nlev)   :: ae, be, ce     
  real, dimension(nlev+1) :: zm      
  integer                 :: jk
- real, parameter         :: beta = 1.0 ! impliciteness factor
-!
- do jk=2,nlev
-  rhoh(jk) = 0.5*(rho(jk) + rho(jk-1))
- enddo
- rhoh(1) = rhoh(2) 
+ real, parameter         :: beta = 1.5 ! impliciteness factor
 !
  do jk=2,nlev
    zm(jk) = 0.5*(z(jk) + z(jk-1))

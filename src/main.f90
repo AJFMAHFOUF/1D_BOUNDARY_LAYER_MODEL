@@ -30,7 +30,7 @@ subroutine main
  real :: clay, sand
  real :: wg, w2, wr, ts, t2, tsk, delta 
  real :: wgn, w2n, wrn, tsn, t2n, tskn, pr, ro
- real :: rsoil, rs, ra, hu, ct, ustar2
+ real :: rsoil, rs, ra, hu, ct
  real :: h, lev, leg, letr, le, rn, g, EmP
  real :: z1, z2, qs
  real :: u10, v10, t2m, q2m, rh2m, zslope
@@ -213,7 +213,7 @@ subroutine main
      delta = 0.0
    endif
 !
-!  Compute soil properties
+!  Compute soil properties for ISBA-FR
 !   
    call soil_prop(wg,w2,ts)
 !   
@@ -253,22 +253,27 @@ subroutine main
 !   
    call downward_radiation(zta,zqa,zps,clf,pmu,rg,rl)
 !
-!  Radiative cooling temperature tendency
+!  Longwave radiative cooling temperature tendency
 !   
    call lw_radiation(nlev,tsk,qvs,zps,tha,qva,pa,dtdt_lw)   
 !   
-   if (llwrad) then
+!  Apply longwave cooling only during night time
+!
+   if (llwrad .and. pmu == 0.0) then
      tha(:) = tha(:) + dt*(p00/pa(:))**(Rd/Cp)*dtdt_lw(:)
    endif  
 !   
-!  Canopy resistance and aerodynamic resistances 
+!  Mean soil moisture content (multi-layer scheme) 
 !
-   wsoil_m = 0.5*wsoil(1)*zsoil(1)
+   wsoil_m = 0.5*wsoil(1)*(zsoil(1) + zsoil(2))
    do jk=2,nlevs-1
      wsoil_m = wsoil_m + 0.5*wsoil(jk)*(zsoil(jk+1) - zsoil(jk-1))
    enddo
    wsoil_m = wsoil_m + wsoil(nlevs)*(zsoil(nlevs) - zsoil(nlevs-1))
-   wsoil_m = wsoil_m*(1.5*zsoil(nlevs) - 0.5*zsoil(nlevs-1))
+   wsoil_m = wsoil_m/(1.5*zsoil(nlevs) - 0.5*zsoil(nlevs-1))
+!   
+!  Canopy resistance and aerodynamic resistances 
+!   
    if (isba_fr) then
      w2_in = w2
    else
@@ -300,7 +305,8 @@ subroutine main
 !
 !  Eddy diffusivity exchange coefficients (0'Brien 1970)
 !   
-     call diffusion_coeff_obrien(nlev,zi,ustar,phi_m,phi_h,tha,ua,va,za,km,kh)
+     !call diffusion_coeff_obrien(nlev,zi,ustar,phi_m,phi_h,tha,ua,va,za,km,kh)
+     call diffusion_coeff_louis(nlev,tha,qva,ua,va,za,km,kh)
 !
    else
 !   
@@ -309,16 +315,16 @@ subroutine main
       call diffusion_coeff_louis(nlev,tha,qva,ua,va,za,km,kh)
 !      
       zi = 20. ! set PBL height at arbitrary small value
-      gamma_cg = 0.0 ! set countergradient to zero
+      gamma_cg = 0.0 ! set countergradient to zero 
 !      
    endif         
 !   
 !  Implicit vertical diffusion equation (tridiagonal solver)
 !
-   call vertical_diffusion(nlev,tha,za,rho,kh,fluxh,than,gamma_cg,1)
-   call vertical_diffusion(nlev,qva,za,rho,kh,fluxq,qvan,gamma_cg,0)
-   call vertical_diffusion(nlev,ua,za,rho,km,fluxu,uan,gamma_cg,0)
-   call vertical_diffusion(nlev,va,za,rho,km,fluxv,van,gamma_cg,0)
+   call vertical_diffusion(nlev,tha,za,kh,fluxh,than,gamma_cg,0)
+   call vertical_diffusion(nlev,qva,za,kh,fluxq,qvan,gamma_cg,0)
+   call vertical_diffusion(nlev,ua,za,km,fluxu,uan,gamma_cg,0)
+   call vertical_diffusion(nlev,va,za,km,fluxv,van,gamma_cg,0)
 !
 !  Solve surface energy budget - evolution of soil temperatures 
 !   
@@ -348,14 +354,14 @@ subroutine main
 !
 !  Write results in file
 !
-   if (amod(dt*i,3.*3600.) == 0.0) then 
+   if (amod(dt*i,900.) == 0.0) then 
      do jk=1,nlev
       write (100,*) za(jk),tha(jk),qva(jk),ua(jk),va(jk),km(jk),kh(jk)
      enddo
      do jk=1,nlevs
       write (200,*) zsoil(jk),tsoil(jk),wsoil(jk),Lambda_s(jk),D_w(jk)
      enddo
-   ii = ii + 1   
+     ii = ii + 1   
    endif  
 !
 !  Swapp over time steps
