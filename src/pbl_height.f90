@@ -20,7 +20,7 @@ subroutine pbl_height(ustar,fluxh,ths,qvs,tha_nlev,za_nlev,zi,phi_m,phi_h)
 !  Monin-Obukhov length   
 !   
    if (fluxh /= 0.0) then  
-     lmo = -ustar**3/(karman/ths*(1.0 + 0.608*qvs)*fluxh)
+     lmo = -ustar**3/(grav*karman/(ths*(1.0 + 0.608*qvs))*fluxh)
    else
      lmo = -1.0E5
    endif
