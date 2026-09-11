@@ -64,7 +64,7 @@ subroutine energy_budget(rho,ts,t2,tsk,tsoil1,ra,rs,rsoil,hu,delta,ct,ps,tha,qa,
  tskn = tsk
  do niter = 1,2
    zres  = Lambda_sk*tskn + emis*Stefan*tskn**4 + rho*Cp*tskn/ra + rho*Lv*zbeta1*qsat(ps,tskn)
-   zres  = zres - (Lambda_sk*t2 + (1.-alpha)*rg + emis*rl + rho*Cp*tha/ra + rho*Lv*zbeta2*qa)
+   zres  = zres - (Lambda_sk*tsoil1 + (1.-alpha)*rg + emis*rl + rho*Cp*tha/ra + rho*Lv*zbeta2*qa)
    zresp = Lambda_sk   + 4.0*emis*Stefan*tskn**3 + rho*Cp/ra   + rho*Lv*zbeta1*dqsat(ps,tskn)
    tskn   = tskn - zres/zresp
  enddo  

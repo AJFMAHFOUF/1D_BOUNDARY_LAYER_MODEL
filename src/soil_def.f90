@@ -8,7 +8,7 @@ subroutine soil_def(clay,sand)
  use soil
  implicit none
  real, intent(in) :: clay, sand 
- real             :: lquartz, l0, rhod
+ real             :: lquartz, l0, rhod, clayb
 !
  lquartz = 7.7 ! Quartz thermal conductivity
  lwater = 0.57 ! Water thermal conductivity
@@ -24,8 +24,11 @@ subroutine soil_def(clay,sand)
  a = 0.73242*(clay*100.)**(-0.539)
  p = 13.4*clay + 3.4
  wl = 1.E-5
+ 
 ! 
- Kwsat = 1.E-6*10**(-8.967 + 6.83*(clay*100)**0.2)
+! Kwsat = 1.E-6*10**(-8.967 + 6.83*(clay*100)**0.2)
+ clayb = amin1(0.7,clay)
+ Kwsat = 10**(8.95*clayb**2 - 9.17*clayb -3.6)
  Psis = -10**(-0.88*sand -0.15)
  rhoc_soil = (1.398 - 0.532*clay)*1.E6
  if (sand < 0.2) then

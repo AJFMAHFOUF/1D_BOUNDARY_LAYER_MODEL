@@ -8,18 +8,18 @@
    Rsmin = 40.0
    LAI = 1.0
    d2 = 1.0
-   veg = 1.00
+   veg = 0.90
  / 
  &simsetup
-   expid = 'REF006'
-   Trans = 0.8
-   dt = 300.0
+   expid = 'REF007'
+   Trans = 0.9
+   dt = 600.0
    lgeowind=.true.
    llwrad=.true.
  /
  &soilinit
-   swig = 1.0
-   swi2 = 1.0
+   swig = 0.1
+   swi2 = 0.1
    delta_ts = 0.0
    delta_t2 = 0.0
  /

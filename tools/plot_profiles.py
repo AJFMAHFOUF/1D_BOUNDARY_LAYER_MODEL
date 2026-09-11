@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-expid='REF006'
+expid='REF007'
 z,t,q,u,v,km,kh=np.loadtxt('../data_out/atmospheric_profiles_exp_'+expid+'.dat',unpack=True)
 za=np.reshape(z,(17,80))
 ta=np.reshape(t,(17,80))
@@ -11,6 +11,7 @@ kma=np.reshape(km,(17,80))
 kha=np.reshape(kh,(17,80))
 fig=plt.figure()
 ax1=fig.add_subplot(221)
+ax1.set_title(expid)
 ax1.plot(ta[0,:]-273.15,za[0,:],label='09 LST',linewidth=2)
 ax1.plot(ta[1,:]-273.15,za[1,:],label='12 LST',linewidth=2)
 ax1.plot(ta[2,:]-273.15,za[2,:],label='15 LST',linewidth=2)
@@ -20,6 +21,7 @@ ax1.legend(loc='best',fontsize='small')
 ax1.set_xlabel('Potential temperature (°C)')
 ax1.set_ylabel('Height (m)')
 ax2=fig.add_subplot(222)
+ax2.set_title(expid)
 ax2.plot(qa[0,:]*1.E3,za[0,:],label='09 LST',linewidth=2)
 ax2.plot(qa[1,:]*1.E3,za[1,:],label='12 LST',linewidth=2)
 ax2.plot(qa[2,:]*1.E3,za[2,:],label='15 LST',linewidth=2)

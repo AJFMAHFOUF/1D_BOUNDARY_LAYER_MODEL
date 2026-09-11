@@ -36,8 +36,8 @@ subroutine diffusion_coeff_louis(nlev,theta,qv,u,v,z,km,kh)
    dtheta = (theta(jk) - theta(jk-1))
    rib = grav/thetam*dtheta*dz/shear**2
    if (rib > 0.) then
-     fm = 1.0/(1.0 + 2.0*cons_b*rib/sqrt(1.0 + cons_d*rib/karman))
-     fh = 1.0/(1.0 + 3.0*cons_b*rib*sqrt(1.0 + cons_d*rib*karman))
+     fm = 1.0/(1.0 + 2.0*cons_b*rib/sqrt(1.0 + cons_d*rib))
+     fh = 1.0/(1.0 + 3.0*cons_b*rib*sqrt(1.0 + cons_d*rib))
    else
      fm = 1.0 - 2.0*cons_b*rib/(1.0 + 3.0*cons_b*cm*sqrt(abs(rib)/27.0*(lm/(zm + z0))**2))
      fh = 1.0 - 2.0*cons_b*rib/(1.0 + 3.0*cons_b*ch*sqrt(abs(rib)/27.0*(lh/(zm + z0h))**2))

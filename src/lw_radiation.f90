@@ -51,7 +51,7 @@ subroutine lw_radiation(nlev,ts,qvs,ps,tha,qva,pa,dtdt)
 ! Options for computing radiative tendencies
 ! 
  l_cts = .false.
- l_wvcont = .true.
+ l_wvcont = .false.
  l_simtend = .false.
 !
 ! Reference values for scaling optical path for H2O and CO2
