@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-expid='REF028'
+expid='REF001'
 dt=900
 nlev=80
 nstep=int(48*3600/dt) + 1
@@ -15,6 +15,7 @@ kma=np.reshape(km,(nstep,80))
 kha=np.reshape(kh,(nstep,80))
 fig=plt.figure()
 ax1=fig.add_subplot(221)
+ax1.set_title(expid)
 ax1.plot(ta[0,:]-273.15,za[0,:],label='09 LST',linewidth=2)
 ax1.plot(ta[int(3*nfreq),:]-273.15,za[1,:],label='12 LST',linewidth=2)
 ax1.plot(ta[int(6*nfreq),:]-273.15,za[2,:],label='15 LST',linewidth=2)
@@ -24,6 +25,7 @@ ax1.legend(loc='best',fontsize='small')
 ax1.set_xlabel('Potential temperature (°C)')
 ax1.set_ylabel('Height (m)')
 ax2=fig.add_subplot(222)
+ax2.set_title(expid)
 ax2.plot(qa[0,:]*1.E3,za[0,:],label='09 LST',linewidth=2)
 ax2.plot(qa[int(3*nfreq),:]*1.E3,za[1,:],label='12 LST',linewidth=2)
 ax2.plot(qa[int(6*nfreq),:]*1.E3,za[2,:],label='15 LST',linewidth=2)
@@ -56,6 +58,7 @@ plt.savefig('../plots/Figure1_'+expid,dpi=600)
 plt.show()
 fig=plt.figure()
 ax1=fig.add_subplot(221)
+ax1.set_title(expid)
 ax1.plot(ta[int(12*nfreq),:]-273.15,za[0,:],label='21 LST',linewidth=2)
 ax1.plot(ta[int(15*nfreq),:]-273.15,za[1,:],label='24 LST',linewidth=2)
 ax1.plot(ta[int(18*nfreq),:]-273.15,za[2,:],label='03 LST',linewidth=2)
@@ -65,6 +68,7 @@ ax1.legend(loc='best',fontsize='small')
 ax1.set_xlabel('Potential temperature (°C)')
 ax1.set_ylabel('Height (m)')
 ax2=fig.add_subplot(222)
+ax2.set_title(expid)
 ax2.plot(qa[int(12*nfreq),:]*1.E3,za[0,:],label='21 LST',linewidth=2)
 ax2.plot(qa[int(15*nfreq),:]*1.E3,za[1,:],label='24 LST',linewidth=2)
 ax2.plot(qa[int(18*nfreq),:]*1.E3,za[2,:],label='03 LST',linewidth=2)
