@@ -1,4 +1,4 @@
-subroutine drag_coeff_z0h(zref,tha,ts,qa,qs,ua,va,ra,ustar)
+subroutine drag_coeff_z0h(zref,tha,ts,qa,qs,ua,va,wstar,ra,ustar)
 !-------------------------------------------------------------------------
 !
 ! Computation of the surface aerodynamic resistance
@@ -13,7 +13,7 @@ subroutine drag_coeff_z0h(zref,tha,ts,qa,qs,ua,va,ra,ustar)
  use const
  use surf1
  implicit none         
- real, intent(in)  :: zref, tha, qa, ts, qs, ua, va
+ real, intent(in)  :: zref, tha, qa, ts, qs, ua, va, wstar
  real, intent(out) :: ra, ustar
  real              :: zcd, zum, zrib, zcorh, zmu, zchs, zcms, &
 &                     zcorm, zpm, zph,                        &
@@ -29,7 +29,7 @@ subroutine drag_coeff_z0h(zref,tha,ts,qa,qs,ua,va,ra,ustar)
  zratio = log((zref + z0)/z0)/log((zref + z0)/z0h)
  zch  = 15.*zchs*zcd*((zref + z0)/z0h)**zph*zratio
  zcm  = 10.*zcms*zcd*((zref + z0)/z0h)**zpm
- zum  = max(0.01,sqrt(ua*ua+va*va))
+ zum  = max(0.01,sqrt(ua*ua+va*va+wstar*wstar))
  ztva = tha*(1. + 0.608*qa)
  ztvs =  ts*(1. + 0.608*qs)
  zrib = 2.*grav*zref*(ztva - ztvs)/((ztvs + ztva)*zum*zum)

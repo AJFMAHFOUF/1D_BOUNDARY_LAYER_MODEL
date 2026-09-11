@@ -25,7 +25,7 @@ subroutine main
  real, dimension (nlevs)        :: tsoil, tsoiln, wsoil, wsoiln, zsoil 
  real, dimension (nlevs)        :: K_w, D_w, rhocs, Lambda_s
  real :: ps, zs, ths, qvs, us, vs, rtime
- real :: fluxh, fluxq, fluxu, fluxv, ustar, zi, phi_m, phi_h, gamma_cg
+ real :: fluxh, fluxq, fluxu, fluxv, ustar, zi, phi_m, phi_h, gamma_cg, wstar
  real :: clf, zta, zqa, zua, zva, zps, pmu, rg, rl 
  real :: clay, sand
  real :: wg, w2, wr, ts, t2, tsk, delta 
@@ -121,11 +121,10 @@ subroutine main
    hu = 1.0
  endif 
 !
-! Define initial depth of planetary boundary layer
+! Define initial depth of planetary boundary layer and convective velocity scale
 !
- ustar = 0.25
- zi = 0.25*ustar/abs(f)
  zi = 100.0
+ wstar = 0.0
 ! 
 ! Surface precipitation
 !
@@ -280,7 +279,7 @@ subroutine main
      w2_in = wsoil_m 
    endif  
    call rs_veg(w2_in,zps,zqa,zta,rg,rs)    
-   call drag_coeff_z0h(za(nlev),tha(nlev),tsk,zqa,qvs,zua,zva,ra,ustar)
+   call drag_coeff_z0h(za(nlev),tha(nlev),tsk,zqa,qvs,zua,zva,wstar,ra,ustar)
 !
 !  Surface fluxes (to be provided by land surface scheme) 
 !   
@@ -292,8 +291,8 @@ subroutine main
 !   fluxq = (0.1*rg)/Lv
    fluxh = h/Cp
    fluxq = le/Lv
-   fluxu = -ustar*ustar*zua/sqrt(zua*zua + zva*zva)
-   fluxv = -ustar*ustar*zva/sqrt(zua*zua + zva*zva)
+   fluxu = -ustar*ustar*zua/sqrt(zua*zua + zva*zva + wstar*wstar)
+   fluxv = -ustar*ustar*zva/sqrt(zua*zua + zva*zva + wstar*wstar)
 !   
 !  Compute exchange coefficients differently according to surface stability
 !
@@ -301,12 +300,12 @@ subroutine main
 !
 !  Height of the PBL and stability functions in the constant flux layer 
 !
-     call pbl_height(ustar,fluxh,tsk,qvs,tha(nlev),za(nlev),zi,phi_m,phi_h,gamma_cg)   
+     call pbl_height(ustar,fluxh,tsk,qvs,tha(nlev),za(nlev),zi,phi_m,phi_h,wstar,gamma_cg)   
 !
 !  Eddy diffusivity exchange coefficients (0'Brien 1970)
 !   
-     !call diffusion_coeff_obrien(nlev,zi,ustar,phi_m,phi_h,tha,ua,va,za,km,kh)
-     call diffusion_coeff_louis(nlev,tha,qva,ua,va,za,km,kh)
+     call diffusion_coeff_obrien(nlev,zi,ustar,phi_m,phi_h,tha,ua,va,za,km,kh)
+     !call diffusion_coeff_louis(nlev,tha,qva,ua,va,za,km,kh)
 !
    else
 !   
@@ -316,10 +315,12 @@ subroutine main
 !      
       zi = 20. ! set PBL height at arbitrary small value
       gamma_cg = 0.0 ! set countergradient to zero 
+      wstar = 0.0
 !      
    endif         
 !   
 !  Implicit vertical diffusion equation (tridiagonal solver)
+!  If last argument is set to 1 : inclusion of countergradient 
 !
    call vertical_diffusion(nlev,tha,za,kh,fluxh,than,gamma_cg,0)
    call vertical_diffusion(nlev,qva,za,kh,fluxq,qvan,gamma_cg,0)

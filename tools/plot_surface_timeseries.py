@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
-expid='REF028'
-i,rg,rl,rn,h,le,leg,lev,letr,g,ts,t2,wg,w2,t2m,wsoil1=np.loadtxt('../data_out/surface_fluxes_and_variables_exp_'+expid+'.dat',unpack=True)
+expid='REF035'
+i,rg,rl,rn,h,le,leg,lev,letr,g,tsk,tsoil1,wg,w2,t2m,wsoil1=np.loadtxt('../data_out/surface_fluxes_and_variables_exp_'+expid+'.dat',unpack=True)
 fig=plt.figure()
 ax1=fig.add_subplot(311)
 ax1.plot(i,rn,label='Rn',linewidth=2)
@@ -16,8 +16,8 @@ ax1.set_xlabel('Time steps')
 ax1.set_ylabel('Watts/m2')
 ax2=fig.add_subplot(312)
 ax2.plot(i,t2m-273.15,label='T2m',linewidth=2)
-ax2.plot(i,ts-273.15,label='Ts',linewidth=2)
-ax2.plot(i,t2-273.15,label='T2',linewidth=2)
+ax2.plot(i,tsk-273.15,label='Tsk',linewidth=2)
+ax2.plot(i,tsoil1-273.15,label='Tsoil1',linewidth=2)
 #ax2.set_ylim(0.,2000.)
 ax2.legend(loc='best',fontsize='small')
 ax2.set_xlabel('Time steps')

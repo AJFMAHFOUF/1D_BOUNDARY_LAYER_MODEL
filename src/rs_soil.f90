@@ -17,6 +17,6 @@ subroutine rs_soil(wg,veg,rsoil)
 !
  zf2 = (wg - veg*wwilt)/(wfc - veg*wwilt)
  zf2 = min(1.0,max(1.0E-4,zf2))
- rsoil = 100./zf2
+ rsoil = 300./zf2
  return
 end subroutine rs_soil

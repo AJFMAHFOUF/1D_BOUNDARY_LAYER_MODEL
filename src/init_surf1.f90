@@ -17,11 +17,12 @@ subroutine init_surf1
  LAI = 1.            ! leaf area index
  d1 = 0.01           ! depth of surface soil layer
  d2 = 1.00           ! depth of deep soil layer
+ d_root = 0.5        ! depth of effective root zone
  gamma = 20.         ! dependency of RS with saturation vapor deficit
  Rgl = 100.          ! dependency of RS with solar radiation
  Cv = 2.E-5          ! vegetation thermal coefficient 
  veg = 0.85          ! vegetation fractionnal cover
  Wrmax = 0.2*veg*LAI ! maximum capacity of interception reservoir
- Lambda_sk = 7.0     ! Thermal properties of skin layer
+ Lambda_sk = 10.0     ! Thermal properties of skin layer
  return
 end subroutine init_surf1 

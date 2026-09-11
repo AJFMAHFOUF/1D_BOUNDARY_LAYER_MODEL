@@ -8,6 +8,7 @@ subroutine soilw_vertical_diffusion(nlevs,x0,zs,K_w,D_w,EmP,Root_ext,x1)
 !-------------------------------------------------------------------------
  use setup, only : dt
  use soil, only : wsat, Kwsat, b, Psis
+ use surf1, only : d_root
  implicit none         
  integer,                  intent(in)  :: nlevs
  real,                     intent(in)  :: EmP, Root_ext
@@ -33,13 +34,14 @@ subroutine soilw_vertical_diffusion(nlevs,x0,zs,K_w,D_w,EmP,Root_ext,x1)
 ! last flux level extrapolated below last model level
  zsm(nlevs+1) =  1.5*zs(nlevs) - 0.5*zs(nlevs-1) 
 ! 
-!  Empirical root extraction profile
+!  Empirical root extraction profile (Molz Remson 1970) for D_w weighting
+!  Zeng (2001) JHM for exponential shape
 ! 
  Sn = 0.0
  S(:) = 0.0
  do jk=2,nlevs
-   Sn = Sn + exp(-2.5*(zs(jk) - zs(2)))*D_w(jk)
-   S(jk) = Root_ext*exp(-2.5*(zs(jk) - zs(2)))*D_w(jk)
+   Sn = Sn + exp(-(zs(jk) - zs(2))/d_root)*D_w(jk)
+   S(jk) = Root_ext*exp(-(zs(jk) - zs(2))/d_root)*D_w(jk)
  enddo  
  S(:) = S(:)/Sn
 !

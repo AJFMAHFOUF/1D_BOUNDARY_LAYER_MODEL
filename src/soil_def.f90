@@ -25,8 +25,13 @@ subroutine soil_def(clay,sand)
  p = 13.4*clay + 3.4
  wl = 1.E-5
 ! 
- Kwsat = 1.E-6*10**(-8.967 + 6.83*(clay*100)**0.2)
- Psis = -10**(-0.88*sand -0.15)
+! Kwsat = 1.E-6*10**(-8.967 + 6.83*(clay*100)**0.2)  ! formula of unknown origin
+!
+! Fit of Clapp - Hornberger (1978) values - bounded by upper clay fraction   
+ Kwsat = 10**(8.95*min(0.7,clay)**2 - 9.17*min(0.7,clay) - 3.6)
+! Kwsat = 10**(2.425*sand - 6.171)
+ Psis = -10**(-0.883*sand - 0.143)  ! Decharme et al. (2011) very bad correlation coefficient (modified)
+! 
  rhoc_soil = (1.398 - 0.532*clay)*1.E6
  if (sand < 0.2) then
    l0 = 3.0
@@ -36,6 +41,10 @@ subroutine soil_def(clay,sand)
  lsoil = lquartz**sand*l0**(1.0 - sand)
  rhod = (1.0 - wsat)*2700.0
  Lambda_dry = (0.135*rhod + 64.7)/(2700.0 - 0.947*rhod)  
+ 
+! print *,'*** Soil properties ***'
+! print *,'Kwsat=',Kwsat,' Psis=',Psis,' b=',b
+! print *,'Lambda_dry=',Lambda_dry,' wsat=',wsat,' wfc=',wfc,' wwilt=',wwilt
 !
  return
 end subroutine soil_def

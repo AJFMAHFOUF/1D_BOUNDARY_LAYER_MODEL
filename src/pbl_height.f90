@@ -1,4 +1,4 @@
-subroutine pbl_height(ustar,fluxh,ths,qvs,tha_nlev,za_nlev,zi,phi_m,phi_h,gamma_cg)
+subroutine pbl_height(ustar,fluxh,ths,qvs,tha_nlev,za_nlev,zi,phi_m,phi_h,wstar,gamma_cg)
 !----------------------------------------------------------------------------
 !
 ! Computation of surface boundary layer stability functions according to
@@ -13,9 +13,9 @@ subroutine pbl_height(ustar,fluxh,ths,qvs,tha_nlev,za_nlev,zi,phi_m,phi_h,gamma_
  implicit none
  real, intent(in)    :: ustar, fluxh, ths, qvs, tha_nlev, za_nlev
  real, intent(inout) :: zi
- real, intent(out)   :: phi_m, phi_h, gamma_cg
+ real, intent(out)   :: phi_m, phi_h, gamma_cg, wstar
  real, parameter     :: dthadzp = 8.5E-3  ! potential temperature gradient above inversion
- real                :: lmo, zeta, wstar
+ real                :: lmo, zeta
 !
 !  Monin-Obukhov length   
 !   
