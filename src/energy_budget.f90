@@ -27,7 +27,7 @@ subroutine energy_budget(rho,ts,t2,tsk,tsoil1,ra,rs,rsoil,hu,delta,ct,ps,tha,qa,
  real, intent(in) :: rho, ts, t2, tsk, tsoil1, ra, rs, ps, tha, qa, rg, rl, wg, delta, ct
  real, intent(inout) :: rsoil, hu
  real, intent(out)   :: tsn, t2n, tskn
- real :: zbeta1, zbeta2, zqs, zdqsdt, za, zb, zc, ztau2, zhu, zra
+ real :: zbeta1, zbeta2, zqs, zdqsdt, za, zb, zc, ztau2, zhu
  real :: zres, zresp
  integer :: niter
 ! 

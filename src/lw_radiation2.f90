@@ -126,14 +126,14 @@ subroutine lw_radiation2(nlev,ts,qvs,ps,tha,qva,pa,dtdt)
    invcpdp = grav/(Cp*(pah(jk) - pah(jk-1)))
    dtdt(jk) = invcpdp*(flux_u(jk) - flux_u(jk-1) + flux_d(jk-1) - flux_d(jk))    
 !
-!  Empirical correction fo water vapour continuum (Savijarvi, 1990)
+!  Empirical correction for water vapour continuum (Savijarvi, 1990)
 !   
    if (l_wvcont) then
      dtdt(jk) = dtdt(jk) - (0.5*1.E-3*(1.E3*qva(jk))**3 + 0.1)/86400.0  
    endif
  enddo
 ! 
-!   Empirical extrapolation for the upper most level
+!  Empirical extrapolation for the upper most level
 !
  dtdt(1)  = dtdt(2) + (pa(1) - pa(2))/(pa(2) - pa(3))*(dtdt(2) - dtdt(3)) 
 !

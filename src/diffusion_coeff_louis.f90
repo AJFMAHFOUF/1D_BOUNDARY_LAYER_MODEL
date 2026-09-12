@@ -16,7 +16,7 @@ subroutine diffusion_coeff_louis(nlev,theta,qv,u,v,z,km,kh)
  real, dimension(nlev),   intent(out) :: km,kh
  real             :: zm, lm, lh, dz, du, dv, shear, thetam, dtheta, rib, fm, fh, cm, ch
 !
- real, parameter  :: cons_b=5.0, cons_c=5.0, cons_d=5.0
+ real, parameter  :: cons_b = 5.0, cons_c = 5.0, cons_d = 5.0
  real, parameter  :: lambda_m = 150.0, lambda_h = lambda_m*sqrt(1.5*cons_d)
  real, parameter  :: beta = 0.05, Zmax = 1500.0
  integer          :: jk
@@ -27,11 +27,11 @@ subroutine diffusion_coeff_louis(nlev,theta,qv,u,v,z,km,kh)
  do jk=2,nlev
    zm = 0.5*(z(jk) + z(jk-1))
    lm = karman*(zm + z0)/(1.0 + karman*(zm + z0)/lambda_m)*(beta + (1.0 - beta)/(1.0 + ((zm + z0)/Zmax)**2))
-   lh = karman*(zm + z0)/(1.0 + karman*(zm + z0)/lambda_h)*(beta + (1.0 - beta)/(1.0 + ((zm + z0)/Zmax)**2)) 
+   lh = karman*(zm + z0h)/(1.0 + karman*(zm + z0h)/lambda_h)*(beta + (1.0 - beta)/(1.0 + ((zm + z0h)/Zmax)**2)) 
    dz = 1./(z(jk) - z(jk-1))
    du = u(jk) - u(jk-1)
    dv = v(jk) - v(jk-1)
-   shear = max(1E-10,sqrt((du*dz)**2 + (dv*dz)**2))
+   shear = max(1E-8,sqrt((du*dz)**2 + (dv*dz)**2))
    thetam = 0.5*(theta(jk)*(1.0 + 0.608*qv(jk)) + theta(jk-1)*(1.0 + 0.608*qv(jk-1)))
    dtheta = (theta(jk) - theta(jk-1))
    rib = grav/thetam*dtheta*dz/shear**2

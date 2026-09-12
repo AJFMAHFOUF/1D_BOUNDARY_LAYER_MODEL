@@ -10,8 +10,8 @@ subroutine main
    real, intent(in)  :: p,t
   end function qsat
  end interface
- integer, parameter :: nlev=80        ! number of atmospheric vertical levels
- integer, parameter :: nlevs=14       ! number of soil vertical levels
+ integer, parameter :: nlev = 80      ! number of atmospheric vertical levels
+ integer, parameter :: nlevs = 14     ! number of soil vertical levels
  real, parameter    :: t_length = 48. ! duration of integration (hours)
  real, parameter    :: t_freq = 1.0   ! time frequency of geostrophic forcing (hours)
  integer, parameter :: ngeos = t_length/t_freq + 1 ! number of geostrophic time slots
@@ -30,7 +30,7 @@ subroutine main
  real :: clay, sand
  real :: wg, w2, wr, ts, t2, tsk, delta 
  real :: wgn, w2n, wrn, tsn, t2n, tskn, pr, ro
- real :: rsoil, rs, ra, hu, ct, ustar2
+ real :: rsoil, rs, ra, hu, ct
  real :: h, lev, leg, letr, le, rn, g, EmP
  real :: z1, z2, qs
  real :: u10, v10, t2m, q2m, rh2m, zslope
@@ -91,7 +91,7 @@ subroutine main
  delta_ts = 0.0
  delta_t2 = 0.0
 ! 
-!  Read namelists to modify simulation set-up and initial conditions
+! Read namelists to modify simulation set-up and initial conditions
 !
  read (unit=8,nml=simsetup)
  read (unit=8,nml=soilinit)
@@ -123,8 +123,6 @@ subroutine main
 !
 ! Define initial depth of planetary boundary layer
 !
- ustar = 0.25
- zi = 0.25*ustar/abs(f)
  zi = 100.0
 ! 
 ! Surface precipitation
@@ -213,7 +211,7 @@ subroutine main
      delta = 0.0
    endif
 !
-!  Compute soil properties
+!  Compute soil properties for ISBA-FR
 !   
    call soil_prop(wg,w2,ts)
 !   
@@ -253,7 +251,7 @@ subroutine main
 !   
    call downward_radiation(zta,zqa,zps,clf,pmu,rg,rl)
 !
-!  Radiative cooling temperature tendency
+!  Longwave radiative cooling temperature tendency
 !   
    call lw_radiation(nlev,tsk,qvs,zps,tha,qva,pa,dtdt_lw)   
 !   
@@ -262,8 +260,9 @@ subroutine main
    endif  
 !   
 !  Canopy resistance and aerodynamic resistances 
+!  Mean soil moisture content (for multi-layer scheme)
 !
-   wsoil_m = 0.5*wsoil(1)*zsoil(1)
+   wsoil_m = 0.5*wsoil(1)*(zsoil(1) + zsoil(2))
    do jk=2,nlevs-1
      wsoil_m = wsoil_m + 0.5*wsoil(jk)*(zsoil(jk+1) - zsoil(jk-1))
    enddo
@@ -283,8 +282,6 @@ subroutine main
    call fluxes(rho(nlev),tsk,tsoil(1),tha(nlev),qs,zqa,rg,rl,ra,rs,rsoil,delta,hu,ct, &
              & h,lev,leg,letr,le,rn,g)    
 !
-!   fluxh = (0.4*rg)/Cp 
-!   fluxq = (0.1*rg)/Lv
    fluxh = h/Cp
    fluxq = le/Lv
    fluxu = -ustar*ustar*zua/sqrt(zua*zua + zva*zva)
@@ -301,14 +298,15 @@ subroutine main
 !  Eddy diffusivity exchange coefficients (0'Brien 1970)
 !   
      call diffusion_coeff_obrien(nlev,zi,ustar,phi_m,phi_h,tha,ua,va,za,km,kh)
+   ! call diffusion_coeff_louis(nlev,tha,qva,ua,va,za,km,kh)
 !
    else
 !   
 !  Eddy diffusivity exchange ceofficients (Louis et al., 1981) 
 !      
-      call diffusion_coeff_louis(nlev,tha,qva,ua,va,za,km,kh)
+     call diffusion_coeff_louis(nlev,tha,qva,ua,va,za,km,kh)
 !      
-      zi = 20. ! set PBL height at arbitrary small value
+     zi = 20. ! set PBL height at arbitrary small value
 !      
    endif         
 !   
@@ -331,7 +329,7 @@ subroutine main
 !
 !  Solve multi-layer soil heat transfers (diffusion equation)      
 !
-   call soilt_vertical_diffusion(nlevs,tsoil,zsoil,rhocs,Lambda_s,tskn,tsoiln)                     
+   call soilt_vertical_diffusion(nlevs,tsoil,zsoil,rhocs,Lambda_s,tskn,tsoiln)  
 !
 !  Solve surface water budget - evolution of soil moisture contents + interception reservoir  
 !   
@@ -345,16 +343,16 @@ subroutine main
 !   
    call soilw_vertical_diffusion(nlevs,wsoil,zsoil,K_w,D_w,EmP,Root_ext,wsoiln)
 !
-!  Write results in file
+!  Write results in file every 900 sec.
 !
-   if (amod(dt*i,3.*3600.) == 0.0) then 
+   if (amod(dt*i,900.) == 0.0) then 
      do jk=1,nlev
       write (100,*) za(jk),tha(jk),qva(jk),ua(jk),va(jk),km(jk),kh(jk)
      enddo
      do jk=1,nlevs
       write (200,*) zsoil(jk),tsoil(jk),wsoil(jk),Lambda_s(jk),D_w(jk)
      enddo
-   ii = ii + 1   
+     ii = ii + 1   
    endif  
 !
 !  Swapp over time steps
