@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-expid='REF013'
+expid='REF015'
 za,tha,qva,ua,va,km,kh=np.loadtxt('../data_out/atmospheric_profiles_exp_'+expid+'.dat',unpack=True)
 dt=900.0
 nlev=80
@@ -11,7 +11,7 @@ x1 = np.arange(0,nstep)
 y1 = np.arange(0,nlev)
 X1, Y1 = np.meshgrid(x1,y1)
 
-plt.xlabel('Hour')
+plt.xlabel('Model time step')
 plt.ylabel('Level number')
 plt.ylim(nlev-1,1,-1)
 plt.xlim(0,nstep-1)
@@ -28,7 +28,7 @@ plt.contour(X1,Y1,var1*1E3,20,colors='black',linewidths=0.5)
 plt.savefig('../plots/specific_humidity_'+expid+'.png',dpi=600)
 plt.show()
 
-plt.xlabel('Hour')
+plt.xlabel('Model time step')
 plt.ylabel('Level number')
 plt.ylim(nlev-1,1,-1)
 plt.xlim(0,nstep-1)
@@ -45,7 +45,7 @@ plt.contour(X1,Y1,var1-273.15,20,colors='black',linewidths=0.5)
 plt.savefig('../plots/potential_temperature_'+expid+'.png',dpi=600)
 plt.show()
 
-plt.xlabel('Hour')
+plt.xlabel('Model time step')
 plt.ylabel('Level number')
 plt.ylim(nlev-1,1,-1)
 plt.xlim(0,nstep-1)
@@ -62,7 +62,7 @@ plt.contour(X1,Y1,var1,20,colors='black',linewidths=0.5)
 plt.savefig('../plots/zonal_wind_'+expid+'.png',dpi=600)
 plt.show()
 
-plt.xlabel('Hour')
+plt.xlabel('Model time step')
 plt.ylabel('Level number')
 plt.ylim(nlev-1,1,-1)
 plt.xlim(0,nstep-1)
@@ -79,7 +79,7 @@ plt.contour(X1,Y1,var1,20,colors='black',linewidths=0.5)
 plt.savefig('../plots/meridional_wind_'+expid+'.png',dpi=600)
 plt.show()
 
-plt.xlabel('Hour')
+plt.xlabel('Model time step')
 plt.ylabel('Level number')
 plt.ylim(nlev-1,1,-1)
 plt.xlim(0,nstep-1)
@@ -96,7 +96,7 @@ plt.contour(X1,Y1,var1,20,colors='black',linewidths=0.5)
 plt.savefig('../plots/heat_exchange_coefficient_'+expid+'.png',dpi=600)
 plt.show()
 
-plt.xlabel('Hour')
+plt.xlabel('Model time step')
 plt.ylabel('Level number')
 plt.ylim(nlev-1,1,-1)
 plt.xlim(0,nstep-1)

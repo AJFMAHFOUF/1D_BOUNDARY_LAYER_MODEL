@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-expid='REF017'
+expid='REF015'
 dt=900.0
 nlevs=14
 nstep=int(48*3600/dt) + 1
@@ -23,7 +23,7 @@ var1=xvar.transpose()
 plt.title('Soil temperature (K) - '+expid)
 figure = plt.gcf()
 figure.set_size_inches(7, 4)
-plt.contourf(X1,Y1,var1,20,cmap='Spectral')
+plt.contourf(X1,Y1,var1,20,cmap='coolwarm')
 plt.colorbar()
 plt.contour(X1,Y1,var1,20,colors='black',linewidths=0.5)
 plt.savefig('../plots/soil_temperature_'+expid+'.png',dpi=600)

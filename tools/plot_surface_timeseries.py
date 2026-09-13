@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-expid='REF010'
+expid='REF015'
 i,rg,rl,rn,h,le,leg,lev,letr,g,ts,t2,wg,w2,t2m,wsoil1=np.loadtxt('../data_out/surface_fluxes_and_variables_exp_'+expid+'.dat',unpack=True)
 fig=plt.figure()
 ax1=fig.add_subplot(211)

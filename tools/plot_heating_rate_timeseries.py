@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-expid='REF010'
+expid='REF015'
 za,heatrate=np.loadtxt('../data_out/radiative_heating_rate_exp_'+expid+'.dat',unpack=True)
 dt=60.0 # model time step
 nlev=80
